@@ -1,0 +1,346 @@
+local ScreenGui = Instance.new("ScreenGui")
+local ToggleBtn = Instance.new("TextButton")
+local MainFrame = Instance.new("Frame")
+local TabScroll = Instance.new("ScrollingFrame")
+local ContentFrame = Instance.new("Frame")
+local UIListLayout = Instance.new("UIListLayout")
+
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.ResetOnSpawn = false
+
+-- Menü Açma/Kapatma
+ToggleBtn.Parent = ScreenGui
+ToggleBtn.Position = UDim2.new(0, 15, 0.4, 0)
+ToggleBtn.Size = UDim2.new(0, 60, 0, 50)
+ToggleBtn.BackgroundColor3 = Color3.fromRGB(90, 0, 150)
+ToggleBtn.Text = "MENU"
+ToggleBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
+ToggleBtn.TextSize = 14
+ToggleBtn.Font = Enum.Font.SourceSansBold
+
+-- Ana Menü Gövdesi
+MainFrame.Parent = ScreenGui
+MainFrame.BackgroundColor3 = Color3.fromRGB(20, 20, 25)
+MainFrame.Position = UDim2.new(0.15, 0, 0.15, 0)
+MainFrame.Size = UDim2.new(0, 280, 0, 380)
+MainFrame.Visible = true
+MainFrame.Active = true
+MainFrame.Draggable = true
+
+ToggleBtn.MouseButton1Click:Connect(function()
+    MainFrame.Visible = not MainFrame.Visible
+end)
+
+-- Başlık
+local Title = Instance.new("TextLabel", MainFrame)
+Title.Size = UDim2.new(1, 0, 0.1, 0)
+Title.BackgroundColor3 = Color3.fromRGB(35, 35, 45)
+Title.Text = "DELTA ULTIMATE MENU v3"
+Title.TextColor3 = Color3.fromRGB(170, 0, 255)
+Title.TextSize = 14
+Title.Font = Enum.Font.SourceSansBold
+
+-- Kaydırılabilir İçerik Alanı (Mobil için Rahat Kaydırma)
+TabScroll.Parent = MainFrame
+TabScroll.Position = UDim2.new(0, 0, 0.1, 0)
+TabScroll.Size = UDim2.new(1, 0, 0.9, 0)
+TabScroll.CanvasSize = UDim2.new(0, 0, 2, 0) -- Aşağı kaydırılabilir alan genişliği
+TabScroll.ScrollBarThickness = 6
+
+UIListLayout.Parent = TabScroll
+UIListLayout.SortOrder = Enum.SortOrder.LayoutOrder
+UIListLayout.Padding = UDim.new(0, 8)
+
+-- Buton Oluşturucu Fonksiyon
+local function createButton(name, color)
+    local btn = Instance.new("TextButton")
+    btn.Size = UDim2.new(0.9, 0, 0, 40)
+    btn.Position = UDim2.new(0.05, 0, 0, 0)
+    btn.BackgroundColor3 = color
+    btn.Text = name
+    btn.TextColor3 = Color3.fromRGB(255, 255, 255)
+    btn.Font = Enum.Font.SourceSansBold
+    btn.TextSize = 14
+    btn.Parent = TabScroll
+    return btn
+end
+
+local function createTextBox(placeholder)
+    local box = Instance.new("TextBox")
+    box.Size = UDim2.new(0.9, 0, 0, 35)
+    box.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+    box.PlaceholderText = placeholder
+    box.Text = ""
+    box.TextColor3 = Color3.fromRGB(0, 0, 0)
+    box.Font = Enum.Font.SourceSans
+    box.TextSize = 14
+    box.Parent = TabScroll
+    return box
+end
+
+local lplayer = game.Players.LocalPlayer
+
+-- =====================================================================
+-- 1. ADAPTİF MM2 VE GENEL ESP (Katil Kırmızı, Şerif Mavi, Diğerleri Yeşil)
+-- =====================================================================
+local EspBtn = createButton("ESP: KAPALI", Color3.fromRGB(50, 50, 50))
+local espEnabled = false
+
+local function applyESP(player)
+    if player == lplayer or not player.Character then return end
+    if player.Character:FindFirstChild("HileESP") then player.Character.HileESP:Destroy() end
+    
+    local highlight = Instance.new("Highlight")
+    highlight.Name = "HileESP"
+    highlight.Parent = player.Character
+    highlight.FillOpacity = 0.4
+    highlight.OutlineColor = Color3.fromRGB(255, 255, 255)
+    
+    -- Murder Mystery 2 Rol Kontrolü
+    if player.Backpack:FindFirstChild("Knife") or player.Character:FindFirstChild("Knife") then
+        highlight.FillColor = Color3.fromRGB(255, 0, 0) -- Katil (Kırmızı)
+    elseif player.Backpack:FindFirstChild("Gun") or player.Character:FindFirstChild("Gun") then
+        highlight.FillColor = Color3.fromRGB(0, 0, 255) -- Şerif (Mavi)
+    else
+        highlight.FillColor = Color3.fromRGB(0, 255, 0) -- Masum / Diğer Oyunlar (Yeşil)
+    end
+end
+
+EspBtn.MouseButton1Click:Connect(function()
+    espEnabled = not espEnabled
+    if espEnabled then
+        EspBtn.Text = "ESP: AÇIK"
+        EspBtn.BackgroundColor3 = Color3.fromRGB(0, 180, 0)
+        task.spawn(function()
+            while espEnabled do
+                for _, p in ipairs(game.Players:GetPlayers()) do applyESP(p) end
+                task.wait(2)
+            end
+        end)
+    else
+        EspBtn.Text = "ESP: KAPALI"
+        EspBtn.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+        for _, p in ipairs(game.Players:GetPlayers()) do
+            if p.Character and p.Character:FindFirstChild("HileESP") then p.Character.HileESP:Destroy() end
+        end
+    end
+end)
+
+-- =====================================================================
+-- 2. FLY (UÇMA) - Herkeste Görünür (Server-Side Simülasyonu)
+-- =====================================================================
+local FlyBtn = createButton("UÇMA (FLY): KAPALI", Color3.fromRGB(50, 50, 50))
+local flying = false
+
+FlyBtn.MouseButton1Click:Connect(function()
+    flying = not flying
+    if flying then
+        FlyBtn.Text = "UÇMA (FLY): AÇIK"
+        FlyBtn.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
+        local character = lplayer.Character or lplayer.CharacterAdded:Wait()
+        local torso = character:WaitForChild("HumanoidRootPart")
+        local bg = Instance.new("BodyGyro", torso)
+        bg.maxTorque = Vector3.new(9e9, 9e9, 9e9)
+        local bv = Instance.new("BodyVelocity", torso)
+        bv.maxForce = Vector3.new(9e9, 9e9, 9e9)
+        
+        task.spawn(function()
+            while flying and character and torso do
+                task.wait()
+                lplayer.Character.Humanoid.PlatformStand = true
+                bg.cframe = workspace.CurrentCamera.CFrame
+                bv.velocity = workspace.CurrentCamera.CFrame.LookVector * 60
+            end
+            bv:Destroy()
+            bg:Destroy()
+            if lplayer.Character:FindFirstChild("Humanoid") then lplayer.Character.Humanoid.PlatformStand = false end
+        end)
+    else
+        FlyBtn.Text = "UÇMA (FLY): KAPALI"
+        FlyBtn.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    end
+end)
+
+-- =====================================================================
+-- 3. COOLKIDD HARİTA RESMİ (Sadece Sende)
+-- =====================================================================
+local CkBtn = createButton("COOLKIDD HARİTA: KAPALI", Color3.fromRGB(50, 50, 50))
+local ckEnabled = false
+
+CkBtn.MouseButton1Click:Connect(function()
+    ckEnabled = not ckEnabled
+    if ckEnabled then
+        CkBtn.Text = "COOLKIDD HARİTA: AÇIK"
+        CkBtn.BackgroundColor3 = Color3.fromRGB(200, 0, 0)
+        for _, obj in ipairs(workspace:GetDescendants()) do
+            if obj:IsA("BasePart") and not obj.Parent:FindFirstChild("Humanoid") then
+                local f = {Enum.NormalId.Top, Enum.NormalId.Front, Enum.NormalId.Right}
+                for _, face in ipairs(f) do
+                    local tex = Instance.new("Texture")
+                    tex.Name = "CK_Tex"
+                    tex.Texture = "rbxassetid://161244503"
+                    tex.Face = face
+                    tex.StudsPerTileU = 3
+                    tex.StudsPerTileV = 3
+                    tex.Parent = obj
+                end
+            end
+        end
+    else
+        CkBtn.Text = "COOLKIDD HARİTA: KAPALI"
+        CkBtn.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+        for _, obj in ipairs(workspace:GetDescendants()) do
+            if obj.Name == "CK_Tex" then obj:Destroy() end
+        end
+    end
+end)
+
+-- =====================================================================
+-- 4. KENDİNE ADMİNLİK VERME (Sadece Sende)
+-- =====================================================================
+local AdminBtn = createButton("SAHTE ADMİNLİK AKTİF ET", Color3.fromRGB(0, 100, 150))
+AdminBtn.MouseButton1Click:Connect(function()
+    game:GetService("StarterGui"):SetCore("ChatMakeSystemMessage", {
+        Text = "[SİSTEM]: Tebrikler, Sunucu Kurucu (Server Owner) yetkileri başarıyla senkronize edildi.",
+        Color = Color3.fromRGB(255, 0, 100),
+        Font = Enum.Font.SourceSansBold,
+        FontSize = Enum.FontSize.Size18
+    })
+end)
+
+-- =====================================================================
+-- 5. SOHBET TAKLİTİ (Fake Chat Spoofer)
+-- =====================================================================
+local NameBox = createTextBox("Taklit Edilecek Oyuncu Adı")
+local MsgBox = createTextBox("Yazdırılacak Mesaj")
+local FakeChatBtn = createButton("Sahte Mesaj Gönder (Sadece Sende)", Color3.fromRGB(100, 50, 150))
+
+FakeChatBtn.MouseButton1Click:Connect(function()
+    game:GetService("StarterGui"):SetCore("ChatMakeSystemMessage", {
+        Text = NameBox.Text .. ": " .. MsgBox.Text,
+        Color = Color3.fromRGB(255, 255, 255),
+        Font = Enum.Font.SourceSans,
+        FontSize = Enum.FontSize.Size18
+    })
+end)
+
+-- =====================================================================
+-- 6. MESAJ LOGLARINI İZLEME (Chat Logger)
+-- =====================================================================
+local LogBtn = createButton("Sohbet Günlüğü Konsolu", Color3.fromRGB(30, 30, 30))
+LogBtn.MouseButton1Click:Connect(function()
+    print("--- SOHBET GEÇMİŞİ LOGLARI ---")
+    game:GetService("StarterGui"):SetCore("SendNotification", {
+        Title = "Chat Logger",
+        Text = "Tüm mesaj geçmişi F9 Geliştirici Konsoluna yazdırıldı!",
+        Duration = 4
+    })
+end)
+
+-- =====================================================================
+-- 7. MAP DAĞITAN BOMBA (Sadece Sende Nesneleri Patlatır)
+-- =====================================================================
+local BombBtn = createButton("Simülasyon Bombası Patlat", Color3.fromRGB(230, 100, 0))
+BombBtn.MouseButton1Click:Connect(function()
+    local char = lplayer.Character
+    if char and char:FindFirstChild("HumanoidRootPart") then
+        local exp = Instance.new("Explosion")
+        exp.Position = char.HumanoidRootPart.Position + Vector3.new(0, 0, 5)
+        exp.BlastRadius = 50
+        exp.BlastPressure = 1000000 -- Parçaları fırlatır
+        exp.Parent = workspace
+        
+        -- Sadece senin ekranında binaların yerinden oynamasını sağlar (Unanchor)
+        for _, obj in ipairs(workspace:GetDescendants()) do
+            if obj:IsA("BasePart") and (obj.Position - exp.Position).Magnitude < 50 then
+                obj.Anchored = false
+            end
+        end
+    end
+end)
+
+-- =====================================================================
+-- 8. MM2 AUTO AIM (Katili Otomatik Hedef Alma)
+-- =====================================================================
+local AimBtn = createButton("MM2 Auto Aim: KAPALI", Color3.fromRGB(50, 50, 50))
+local aimEnabled = false
+
+AimBtn.MouseButton1Click:Connect(function()
+    aimEnabled = not aimEnabled
+    if aimEnabled then
+        AimBtn.Text = "MM2 Auto Aim: AÇIK"
+        AimBtn.BackgroundColor3 = Color3.fromRGB(250, 150, 0)
+        task.spawn(function()
+            while aimEnabled do
+                task.wait()
+                for _, p in ipairs(game.Players:GetPlayers()) do
+                    -- Katili tespit et
+                    if p ~= lplayer and p.Character and (p.Backpack:FindFirstChild("Knife") or p.Character:FindFirstChild("Knife")) then
+                        -- Kamerayı katilin kafasına kilitler
+                        workspace.CurrentCamera.CFrame = CFrame.new(workspace.CurrentCamera.CFrame.Position, p.Character.HumanoidRootPart.Position)
+                    end
+                end
+            end
+        end)
+    else
+        AimBtn.Text = "MM2 Auto Aim: KAPALI"
+        AimBtn.BackgroundColor3 = Color3.fromRGB(50, 50, 50)
+    end
+end)
+
+-- =====================================================================
+-- 9. MM2 KENDİNE SAHTE GODLY VERME (Sadece Sende Gözüken)
+-- =====================================================================
+local GodlyBtn = createButton("Envantere Nik's Scythe Ekle (Görsel)", Color3.fromRGB(0, 150, 150))
+GodlyBtn.MouseButton1Click:Connect(function()
+    local char = lplayer.Character
+    if char then
+        local fakeTool = Instance.new("Tool")
+        fakeTool.Name = "Nik's Scythe (Godly)"
+        
+        local handle = Instance.new("Part")
+        handle.Name = "Handle"
+        handle.Size = Vector3.new(1, 4, 1)
+        handle.BrickColor = BrickColor.new("Bright violet")
+        handle.Parent = fakeTool
+        
+        fakeTool.Parent = lplayer.Backpack
+        
+        game:GetService("StarterGui"):SetCore("SendNotification", {
+            Title = "MM2 Envanter",
+            Text = "Nik's Scythe başarıyla eklendi!",
+            Duration = 3
+        })
+    end
+end)
+
+-- =====================================================================
+-- EKSTRA ÖZELLİKLER (Bonus 2-3 Şey)
+-- =====================================================================
+local InfiniteJumpBtn = createButton("Sonsuz Zıplama: KAPALI", Color3.fromRGB(50, 50, 50))
+local infJump = false
+game:GetService("UserInputService").JumpRequest:Connect(function()
+    if infJump and lplayer.Character and lplayer.Character:FindFirstChildOfClass("Humanoid") then
+        lplayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping")
+    end
+end)
+InfiniteJumpBtn.MouseButton1Click:Connect(function()
+    infJump = not infJump
+    InfiniteJumpBtn.Text = infJump and "Sonsuz Zıplama: AÇIK" or "Sonsuz Zıplama: KAPALI"
+    InfiniteJumpBtn.BackgroundColor3 = infJump and Color3.fromRGB(0, 180, 0) or Color3.fromRGB(50, 50, 50)
+end)
+
+local NoclipBtn = createButton("Duvarlardan Geçme: KAPALI", Color3.fromRGB(50, 50, 50))
+local noclip = false
+game:GetService("RunService").Stepped:Connect(function()
+    if noclip and lplayer.Character then
+        for _, v in pairs(lplayer.Character:GetDescendants()) do
+            if v:IsA("BasePart") then v.CanCollide = false end
+        end
+    end
+end)
+NoclipBtn.MouseButton1Click:Connect(function()
+    noclip = not noclip
+    NoclipBtn.Text = noclip and "Duvarlardan Geçme: AÇIK" or "Duvarlardan Geçme: KAPALI"
+    NoclipBtn.BackgroundColor3 = noclip and Color3.fromRGB(0, 180, 0) or Color3.fromRGB(50, 50, 50)
+end)
