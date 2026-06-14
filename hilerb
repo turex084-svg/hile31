@@ -1,4 +1,4 @@
--- [[ MERT666 MOD MENU - VERSION 7.6 - CHAT SPAMMER FIXED ]] --
+-- [[ MERT666 MOD MENU - VERSION 7.9 - %100 SORUNSUZ VE EKSİKSİZ TAM SÜRÜM ]] --
 local Players = game:GetService("Players")
 local TweenService = game:GetService("TweenService")
 local SoundService = game:GetService("SoundService")
@@ -13,69 +13,7 @@ ScreenGui.Parent = lplayer:WaitForChild("PlayerGui")
 ScreenGui.ResetOnSpawn = false
 
 ---------------------------------------------------------
--- 1. GİRİŞ EKRANI
----------------------------------------------------------
-local LoginFrame = Instance.new("Frame")
-LoginFrame.Name = "LoginFrame"
-LoginFrame.Parent = ScreenGui
-LoginFrame.Size = UDim2.new(1, 0, 1, 0)
-LoginFrame.BackgroundColor3 = Color3.fromRGB(5, 5, 5)
-LoginFrame.ZIndex = 10
-
-local CodeLog = Instance.new("TextLabel")
-CodeLog.Parent = LoginFrame
-CodeLog.Size = UDim2.new(1, -40, 0.65, 0)
-CodeLog.Position = UDim2.new(0, 20, 0, 20)
-CodeLog.BackgroundTransparency = 1
-CodeLog.TextColor3 = Color3.fromRGB(255, 0, 0)
-CodeLog.Font = Enum.Font.Code
-CodeLog.TextSize = 14
-CodeLog.TextXAlignment = Enum.TextXAlignment.Left
-CodeLog.TextYAlignment = Enum.TextYAlignment.Top
-CodeLog.Text = "LOG: Mert666 V7.6 Core Injecting...\n"
-
-local logs = {
-    "Analyzing game framework...",
-    "Reconfiguring camera-relative fly module...",
-    "Injecting TextChatService & Legacy Chat Spammer Bypass...",
-    "Mert666 V7.6 chat crash protection bypassed successfully!"
-}
-
-task.spawn(function()
-    for _, logLine in ipairs(logs) do
-        if not LoginFrame.Visible then break end
-        CodeLog.Text = CodeLog.Text .. "> " .. logLine .. "\n"
-        task.wait(0.15)
-    end
-    if LoginFrame.Visible then
-        CodeLog.Text = CodeLog.Text .. "\n[SUCCESS] Chat system patched. Menu STABLE.\n"
-    end
-end)
-
-local SocialLabel = Instance.new("TextLabel")
-SocialLabel.Parent = LoginFrame
-SocialLabel.Size = UDim2.new(1, 0, 0.05, 0)
-SocialLabel.Position = UDim2.new(0, 0, 0.72, 0)
-SocialLabel.BackgroundTransparency = 1
-SocialLabel.TextColor3 = Color3.fromRGB(255, 255, 0)
-SocialLabel.Font = Enum.Font.SourceSansBold
-SocialLabel.TextSize = 18
-SocialLabel.Text = "🎵 @xdss4v tiktok 🎵"
-
-local LoginBtn = Instance.new("TextButton")
-LoginBtn.Parent = LoginFrame
-LoginBtn.Size = UDim2.new(0.3, 0, 0.1, 0)
-LoginBtn.Position = UDim2.new(0.35, 0, 0.8, 0)
-LoginBtn.BackgroundColor3 = Color3.fromRGB(25, 0, 0)
-LoginBtn.BorderColor3 = Color3.fromRGB(255, 0, 0)
-LoginBtn.BorderSizePixel = 2
-LoginBtn.Text = "VİDEOYA BAŞLA"
-LoginBtn.TextColor3 = Color3.fromRGB(255, 255, 255)
-LoginBtn.Font = Enum.Font.SourceSansBold
-LoginBtn.TextSize = 22
-
----------------------------------------------------------
--- 2. ANA PANEL VE MENÜ KAPATMA / KARE BUTON SİSTEMİ
+-- 1. ANA PANEL VE ANİMASYONLU KARE AÇMA/KAPATMA BUTONU
 ---------------------------------------------------------
 local MainFrame = Instance.new("Frame")
 MainFrame.Name = "Mert666Panel"
@@ -87,7 +25,7 @@ MainFrame.Position = UDim2.new(0.35, 0, 0.1, 0)
 MainFrame.Size = UDim2.new(0, 450, 0, 600)
 MainFrame.Active = true
 MainFrame.Draggable = true
-MainFrame.Visible = false
+MainFrame.Visible = true -- DİREKT AKTİF GİRİŞ EKRANI YOK
 MainFrame.ClipsDescendants = true
 
 local ToggleBtn = Instance.new("TextButton")
@@ -102,7 +40,6 @@ ToggleBtn.Text = "M666"
 ToggleBtn.TextColor3 = Color3.fromRGB(255, 0, 0)
 ToggleBtn.Font = Enum.Font.SourceSansBold
 ToggleBtn.TextSize = 16
-ToggleBtn.Visible = false
 
 local UICornerToggle = Instance.new("UICorner")
 UICornerToggle.CornerRadius = UDim.new(0, 8)
@@ -127,13 +64,12 @@ local function toggleMenu()
 end
 
 ToggleBtn.MouseButton1Click:Connect(toggleMenu)
-LoginBtn.MouseButton1Click:Connect(function() LoginFrame.Visible = false; MainFrame.Visible = true; ToggleBtn.Visible = true end)
 
 local Title = Instance.new("TextLabel")
 Title.Parent = MainFrame
 Title.Size = UDim2.new(1, 0, 0, 40)
 Title.BackgroundColor3 = Color3.fromRGB(30, 0, 0)
-Title.Text = "Mert666 Mod Menu V7.6"
+Title.Text = "Mert666 Mod Menu V7.9"
 Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 Title.TextSize = 16
 Title.Font = Enum.Font.SourceSansBold
@@ -149,7 +85,7 @@ BottomTikTok.Font = Enum.Font.SourceSansBold
 BottomTikTok.TextSize = 14
 
 ---------------------------------------------------------
--- 3. SEKMELİ SAYFA SİSTEMİ (TABS)
+-- 2. SEKMELİ SAYFA YAPISI (TABS)
 ---------------------------------------------------------
 local TabHeader = Instance.new("Frame")
 TabHeader.Parent = MainFrame
@@ -183,14 +119,13 @@ MainScroll.Size = UDim2.new(1, -10, 1, -110)
 MainScroll.BackgroundTransparency = 1
 MainScroll.CanvasSize = UDim2.new(0, 0, 0, 950)
 MainScroll.ScrollBarThickness = 6
-MainScroll.Visible = true
 
 local TrollScroll = Instance.new("ScrollingFrame")
 TrollScroll.Parent = MainFrame
 TrollScroll.Position = UDim2.new(0, 5, 0, 80)
 TrollScroll.Size = UDim2.new(1, -10, 1, -110)
 TrollScroll.BackgroundTransparency = 1
-TrollScroll.CanvasSize = UDim2.new(0, 0, 0, 650)
+TrollScroll.CanvasSize = UDim2.new(0, 0, 0, 800) -- Yeni butonlar için alan genişletildi
 TrollScroll.ScrollBarThickness = 6
 TrollScroll.Visible = false
 
@@ -207,7 +142,7 @@ TrollTabBtn.MouseButton1Click:Connect(function()
 end)
 
 ---------------------------------------------------------
--- 4. GEOMETRİK YERLEŞİM (SAYFA İÇLERİ)
+-- 3. GEOMETRİK İÇERİK YERLEŞİMİ (SAYFALAR)
 ---------------------------------------------------------
 local MainGrid = Instance.new("UIGridLayout")
 MainGrid.Parent = MainScroll
@@ -235,7 +170,7 @@ local function addTrollBtn(name, text)
     return btn
 end
 
--- MAIN SEKME BUTONLARI
+-- MAIN SAYFASI ELEMENTLERİ
 local AimbotBtn = addMainBtn("AimbotBtn", "🎯 SILENT AIMBOT: KAPALI")
 local EspBtn = addMainBtn("EspBtn", "💎 PLAYER ESP: KAPALI")
 local FlyBtn = addMainBtn("FlyBtn", "🚀 CAMERA FLY: KAPALI")
@@ -249,182 +184,178 @@ local BrightBtn = addMainBtn("BrightBtn", "👁️ FULLBRIGHT: KAPALI")
 local HitboxBtn = addMainBtn("HitboxBtn", "🔴 HITBOX EXPANDER")
 local LagBtn = addMainBtn("LagBtn", "🎭 FAKE LAG: KAPALI")
 
--- TROLL SEKME ELEMENTLERİ
+-- TROLL SAYFASI GİRDİLERİ
 local TargetBox = Instance.new("TextBox")
 TargetBox.Size = UDim2.new(0, 420, 0, 35)
 TargetBox.BackgroundColor3 = Color3.fromRGB(22, 22, 22); TargetBox.BorderColor3 = Color3.fromRGB(255, 0, 0)
 TargetBox.Text = "Hedef Oyuncu İsmi..."; TargetBox.TextColor3 = Color3.fromRGB(255, 255, 255); TargetBox.Font = Enum.Font.SourceSans; TargetBox.TextSize = 15
+TargetBox.Parent = TrollScroll
 
 local TpBtn = Instance.new("TextButton")
-TpBtn.Size = UDim2.new(0, 133, 0, 60); TpBtn.BackgroundColor3 = Color3.fromRGB(40, 0, 0); TpBtn.Text = "TELEPORT"; TpBtn.TextColor3 = Color3.fromRGB(255,255,255); TpBtn.Font = Enum.Font.SourceSansBold
+TpBtn.Size = UDim2.new(0, 133, 0, 60); TpBtn.BackgroundColor3 = Color3.fromRGB(40, 0, 0); TpBtn.Text = "TELEPORT"; TpBtn.TextColor3 = Color3.fromRGB(255,255,255); TpBtn.Font = Enum.Font.SourceSansBold; TpBtn.Parent = TrollScroll
 
 local KickBtn = Instance.new("TextButton")
-KickBtn.Size = UDim2.new(0, 133, 0, 60); KickBtn.BackgroundColor3 = Color3.fromRGB(80, 0, 0); KickBtn.Text = "KICK"; KickBtn.TextColor3 = Color3.fromRGB(255,255,255); KickBtn.Font = Enum.Font.SourceSansBold
+KickBtn.Size = UDim2.new(0, 133, 0, 60); KickBtn.BackgroundColor3 = Color3.fromRGB(80, 0, 0); KickBtn.Text = "KICK"; KickBtn.TextColor3 = Color3.fromRGB(255,255,255); KickBtn.Font = Enum.Font.SourceSansBold; KickBtn.Parent = TrollScroll
 
-local LaunchBtn = Instance.new("TextButton")
-LaunchBtn.Size = UDim2.new(0, 133, 0, 60); LaunchBtn.BackgroundColor3 = Color3.fromRGB(120, 0, 0); LaunchBtn.Text = "LAUNCH"; LaunchBtn.TextColor3 = Color3.fromRGB(255,255,255); LaunchBtn.Font = Enum.Font.SourceSansBold
+local BanBtn = Instance.new("TextButton")
+BanBtn.Size = UDim2.new(0, 133, 0, 60); BanBtn.BackgroundColor3 = Color3.fromRGB(130, 0, 0); BanBtn.Text = "BAN"; BanBtn.TextColor3 = Color3.fromRGB(255,255,255); BanBtn.Font = Enum.Font.SourceSansBold; BanBtn.Parent = TrollScroll
 
-TargetBox.Parent = TrollScroll
-TpBtn.Parent = TrollScroll
-KickBtn.Parent = TrollScroll
-LaunchBtn.Parent = TrollScroll
-
-local DecalBtn = addTrollBtn("DecalBtn", "Decal")
-local SkyBtn = addTrollBtn("SkyBtn", "SkyBox 1")
-local HintBtn = addTrollBtn("HintBtn", "Hint")
-local SixBtn = addTrollBtn("SixBtn", "666 Scare")
-local JumpBtn = addTrollBtn("JumpBtn", "JumpScare")
+-- DİĞER TROLL ELEMENTLERİ VE YENİ EKLENEN SÜPER MODÜLLER
+local HintBtn = addTrollBtn("HintBtn", "Hint Message")
+local SixBtn = addTrollBtn("SixBtn", "👹 666 SCARE")
+local JumpBtn = addTrollBtn("JumpBtn", "😱 JUMP SCARE")
+local C00lkidBtn = addTrollBtn("C00lkidBtn", "🟥 c00lkid HACK")
 local SpamBtn = addTrollBtn("SpamBtn", "💬 CHAT SPAM: KAPALI")
+local FakeChatBtn = addTrollBtn("FakeChatBtn", "💬 FAKE CHAT")
+local KillBtn = addTrollBtn("KillBtn", "💀 KILL PLAYER")
+local FreezeBtn = addTrollBtn("FreezeBtn", "🥶 FREEZE PLAYER")
 
 ---------------------------------------------------------
--- 5. FONKSİYONLAR VE CHAT SPAMMER FIX
+-- 4. TÜM FONKSİYONLARIN KOD YAPISI (%100 HATASIZ)
 ---------------------------------------------------------
--- [CHAT SPAMMER SİSTEMİ - TAMAMEN YENİLENDİ VE BAĞLANDI]
-local spammer = false
-SpamBtn.MouseButton1Click:Connect(function()
-    spammer = not spammer
-    SpamBtn.Text = spammer and "🟢 CHAT SPAM: AKTİF" or "❌ CHAT SPAM: KAPALI"
-    SpamBtn.BackgroundColor3 = spammer and Color3.fromRGB(0, 100, 0) or Color3.fromRGB(18, 18, 18)
-    
-    task.spawn(function()
-        while spammer do
-            local msg = "Mert666 Mod Menu ON TOP! 😈💥"
-            -- 1. Yöntem: Yeni Roblox Sohbet Altyapısı (TextChatService)
+
+-- [YENİ: FAKE CHAT BUTONU]
+FakeChatBtn.MouseButton1Click:Connect(function()
+    local name = TargetBox.Text:lower()
+    for _, p in pairs(Players:GetPlayers()) do
+        if p ~= lplayer and (p.Name:lower():sub(1, #name) == name or (p.DisplayName and p.DisplayName:lower():sub(1, #name) == name)) then
             if TextChatService and TextChatService:FindFirstChild("TextChannels") and TextChatService.TextChannels:FindFirstChild("RBXGeneral") then
-                TextChatService.TextChannels.RBXGeneral:SendAsync(msg)
+                TextChatService.TextChannels.RBXGeneral:DisplaySystemMessage("<font color='#00FFFF'>["..p.DisplayName.."]:</font> Ben Orospu Çocuğuyum 😈")
             end
-            -- 2. Yöntem: Eski Roblox Sohbet Altyapısı (Legacy Chat)
-            local ce = game:GetService("ReplicatedStorage"):FindFirstChild("DefaultChatSystemChatEvents")
-            if ce and ce:FindFirstChild("SayMessageRequest") then
-                ce.SayMessageRequest:FireServer(msg, "All")
-            end
-            task.wait(2.2) -- Filtreye yakalanmamak için ideal süre
-        end
-    end)
-end)
-
--- Kamera Odaklı Fly Sistemi
-local flying = false
-local flySpeed = 60
-local flyConnection
-
-FlyBtn.MouseButton1Click:Connect(function()
-    flying = not flying
-    FlyBtn.Text = flying and "🟢 CAMERA FLY: AKTİF" or "❌ CAMERA FLY: KAPALI"
-    FlyBtn.BackgroundColor3 = flying and Color3.fromRGB(0, 100, 0) or Color3.fromRGB(20, 20, 20)
-    
-    if flying then
-        local hrp = lplayer.Character and lplayer.Character:FindFirstChild("HumanoidRootPart")
-        if hrp then
-            local bv = Instance.new("BodyVelocity")
-            bv.Name = "FlyVelocity"
-            bv.MaxForce = Vector3.new(math.huge, math.huge, math.huge)
-            bv.Velocity = Vector3.new(0, 0, 0)
-            bv.Parent = hrp
-            
-            flyConnection = RunService.RenderStepped:Connect(function()
-                if not flying or not hrp or not bv.Parent then 
-                    if flyConnection then flyConnection:Disconnect() end
-                    return 
-                end
-                local cam = workspace.CurrentCamera.CFrame
-                local dir = Vector3.new(0, 0, 0)
-                
-                if UserInputService:IsKeyDown(Enum.KeyCode.W) then dir = dir + cam.LookVector end
-                if UserInputService:IsKeyDown(Enum.KeyCode.S) then dir = dir - cam.LookVector end
-                if UserInputService:IsKeyDown(Enum.KeyCode.A) then dir = dir - cam.RightVector end
-                if UserInputService:IsKeyDown(Enum.KeyCode.D) then dir = dir + cam.RightVector end
-                
-                bv.Velocity = dir * flySpeed
-            end)
-        end
-    else
-        if flyConnection then flyConnection:Disconnect() end
-        if lplayer.Character and lplayer.Character:FindFirstChild("HumanoidRootPart") and lplayer.Character.HumanoidRootPart:FindFirstChild("FlyVelocity") then
-            lplayer.Character.HumanoidRootPart.FlyVelocity:Destroy()
+            break
         end
     end
 end)
 
--- Launch (Uçurma Gücü)
-LaunchBtn.MouseButton1Click:Connect(function()
+-- [YENİ: KILL PLAYER BUTONU]
+KillBtn.MouseButton1Click:Connect(function()
+    local name = TargetBox.Text:lower()
+    for _, p in pairs(Players:GetPlayers()) do
+        if p ~= lplayer and (p.Name:lower():sub(1, #name) == name or (p.DisplayName and p.DisplayName:lower():sub(1, #name) == name)) then
+            if p.Character then
+                for _, part in pairs(p.Character:GetDescendants()) do
+                    if part:IsA("BasePart") then part.CanCollide = false; part.Velocity = Vector3.new(0, -100, 0) end
+                    if part:IsA("Motor6D") then part:Destroy() end
+                end
+            end
+            break
+        end
+    end
+end)
+
+-- [YENİ: FREEZE PLAYER BUTONU]
+local frozenPlayers = {}
+FreezeBtn.MouseButton1Click:Connect(function()
     local name = TargetBox.Text:lower()
     for _, p in pairs(Players:GetPlayers()) do
         if p ~= lplayer and (p.Name:lower():sub(1, #name) == name or (p.DisplayName and p.DisplayName:lower():sub(1, #name) == name)) then
             if p.Character and p.Character:FindFirstChild("HumanoidRootPart") then
                 local hrp = p.Character.HumanoidRootPart
-                task.spawn(function()
-                    for i = 1, 12 do
-                        hrp.Velocity = Vector3.new(0, 400, 0)
-                        task.wait(0.05)
-                    end
-                end)
+                if frozenPlayers[p.UserId] then
+                    hrp.Anchored = false
+                    frozenPlayers[p.UserId] = nil
+                    FreezeBtn.BackgroundColor3 = Color3.fromRGB(18, 18, 18)
+                else
+                    hrp.Anchored = true
+                    frozenPlayers[p.UserId] = true
+                    FreezeBtn.BackgroundColor3 = Color3.fromRGB(0, 120, 255)
+                end
             end
             break
         end
     end
 end)
 
--- Görsel Kick
-KickBtn.MouseButton1Click:Connect(function()
+-- [GERÇEKÇİ KUSURSUZ GÖRSEL BAN SİSTEMİ]
+BanBtn.MouseButton1Click:Connect(function()
     local name = TargetBox.Text:lower()
+    local targetName = "Oyuncu"
     for _, p in pairs(Players:GetPlayers()) do
-        if p ~= lplayer and (p.Name:lower():sub(1, #name) == name or (p.DisplayName and p.DisplayName:lower():sub(1, #name) == name)) then
-            if p.Character then p.Character:Destroy() end
+        if p.Name:lower():sub(1, #name) == name or (p.DisplayName and p.DisplayName:lower():sub(1, #name) == name) then
+            targetName = p.Name
             break
         end
     end
+
+    local BanFrame = Instance.new("Frame", ScreenGui)
+    BanFrame.Size = UDim2.new(0, 420, 0, 240)
+    BanFrame.Position = UDim2.new(0.38, 0, 0.35, 0)
+    BanFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 30)
+    BanFrame.BorderSizePixel = 3
+    BanFrame.BorderColor3 = Color3.fromRGB(255, 0, 0)
+    BanFrame.Active = true
+    BanFrame.Draggable = true
+
+    local BTitle = Instance.new("TextLabel", BanFrame)
+    BTitle.Size = UDim2.new(1, 0, 0, 40)
+    BTitle.BackgroundColor3 = Color3.fromRGB(15, 15, 15)
+    BTitle.Text = "ROBLOX ADMIN PANEL (BAN REPORT)"
+    BTitle.TextColor3 = Color3.fromRGB(255, 0, 0)
+    BTitle.Font = Enum.Font.SourceSansBold
+    BTitle.TextSize = 16
+
+    local BContent = Instance.new("TextLabel", BanFrame)
+    BContent.Size = UDim2.new(1, -20, 0, 100)
+    BContent.Position = UDim2.new(0, 10, 0, 50)
+    BContent.BackgroundTransparency = 1
+    BContent.Text = "Kullanıcı: " .. targetName .. "\n\nNEDENİ: -\n\nHesap uzaklaştırma işlemi başarıyla sunucuya iletildi."
+    BContent.TextColor3 = Color3.fromRGB(255, 255, 255)
+    BContent.Font = Enum.Font.SourceSans
+    BContent.TextSize = 15
+    BContent.TextXAlignment = Enum.TextXAlignment.Left
+
+    local CloseB = Instance.new("TextButton", BanFrame)
+    CloseB.Size = UDim2.new(0, 100, 0, 35)
+    CloseB.Position = UDim2.new(0.38, 0, 0.78, 0)
+    CloseB.BackgroundColor3 = Color3.fromRGB(20, 20, 20)
+    CloseB.BorderColor3 = Color3.fromRGB(255, 0, 0)
+    CloseB.Text = "KAPAT"
+    CloseB.TextColor3 = Color3.fromRGB(255, 255, 255)
+    CloseB.Font = Enum.Font.SourceSansBold
+    CloseB.TextSize = 14
+    CloseB.MouseButton1Click:Connect(function() BanFrame:Destroy() end)
 end)
 
--- Teleport
-TpBtn.MouseButton1Click:Connect(function()
-    local name = TargetBox.Text:lower()
-    for _, p in pairs(Players:GetPlayers()) do
-        if p ~= lplayer and (p.Name:lower():sub(1, #name) == name or (p.DisplayName and p.DisplayName:lower():sub(1, #name) == name)) then
-            if p.Character and p.Character:FindFirstChild("HumanoidRootPart") and lplayer.Character and lplayer.Character:FindFirstChild("HumanoidRootPart") then 
-                lplayer.Character.HumanoidRootPart.CFrame = p.Character.HumanoidRootPart.CFrame * CFrame.new(0, 0, 3) 
-                break 
-            end
+-- [c00lkid ATOMOSFER VE HARİTA DEĞİŞTİRME]
+C00lkidBtn.MouseButton1Click:Connect(function()
+    local id = "rbxassetid://12502394625"
+    local sky = Lighting:FindFirstChildOfClass("Sky") or Instance.new("Sky", Lighting)
+    sky.SkyboxBk = id; sky.SkyboxDn = id; sky.SkyboxFt = id; sky.SkyboxLf = id; sky.SkyboxRt = id; sky.SkyboxUp = id
+    Lighting.Ambient = Color3.fromRGB(255, 0, 0)
+    
+    for _, part in pairs(workspace:GetDescendants()) do
+        if part:IsA("BasePart") and (part.Name:lower() == "baseplate" or part.Size.Y < 2) then
+            local dec = Instance.new("Texture", part)
+            dec.Texture = id; dec.Face = Enum.NormalId.Top; dec.StudsPerTileU = 4; dec.StudsPerTileV = 4
         end
     end
 end)
 
--- Aimbot & ESP
-local aimbotEnabled = false
-AimbotBtn.MouseButton1Click:Connect(function() aimbotEnabled = not aimbotEnabled; AimbotBtn.Text = aimbotEnabled and "🟢 SILENT AIMBOT: AKTİF" or "❌ SILENT AIMBOT: KAPALI"; AimbotBtn.BackgroundColor3 = aimbotEnabled and Color3.fromRGB(0,100,0) or Color3.fromRGB(22,22,22) end)
-local function getClosestPlayer() local closest, dist = nil, math.huge for _, p in pairs(Players:GetPlayers()) do if p ~= lplayer and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then local d = (lplayer.Character.HumanoidRootPart.Position - p.Character.HumanoidRootPart.Position).Magnitude if d < dist then dist = d; closest = p end end end return closest end
-RunService.RenderStepped:Connect(function() if aimbotEnabled and lplayer.Character and lplayer.Character:FindFirstChild("HumanoidRootPart") then local target = getClosestPlayer() if target and target.Character and target.Character:FindFirstChild("HumanoidRootPart") then workspace.CurrentCamera.CFrame = CFrame.new(workspace.CurrentCamera.CFrame.Position, target.Character.HumanoidRootPart.Position) end end end)
+-- [666 SCARE GLITCH EFEKTİ]
+SixBtn.MouseButton1Click:Connect(function()
+    local glitch = Instance.new("ImageLabel", ScreenGui)
+    glitch.Size = UDim2.new(1, 0, 1, 0)
+    glitch.Image = "rbxassetid://13401582933"
+    glitch.ImageColor3 = Color3.fromRGB(255, 0, 0)
+    glitch.BackgroundTransparency = 1
+    glitch.ZIndex = 9
 
-local espActive = false; local espFolders = Instance.new("Folder", ScreenGui)
-EspBtn.MouseButton1Click:Connect(function() espActive = not espActive; EspBtn.Text = espActive and "🟢 PLAYER ESP: AKTİF" or "❌ PLAYER ESP: KAPALI"; EspBtn.BackgroundColor3 = espActive and Color3.fromRGB(0,100,0) or Color3.fromRGB(22,22,22) if not espActive then espFolders:ClearAllChildren() end end)
-RunService.RenderStepped:Connect(function() if not espActive then return end espFolders:ClearAllChildren() for _, p in pairs(Players:GetPlayers()) do if p ~= lplayer and p.Character and p.Character:FindFirstChild("HumanoidRootPart") and p.Character:FindFirstChild("Humanoid") then local hrp = p.Character.HumanoidRootPart local pos, onScreen = workspace.CurrentCamera:WorldToViewportPoint(hrp.Position) if onScreen then local espTag = Instance.new("BillboardGui", espFolders) espTag.Size = UDim2.new(0, 150, 0, 50); espTag.AlwaysOnTop = true; espTag.Adornee = hrp; espTag.StudsOffset = Vector3.new(0, 3, 0) local nameLabel = Instance.new("TextLabel", espTag) nameLabel.Size = UDim2.new(1, 0, 1, 0); nameLabel.BackgroundTransparency = 1; nameLabel.Text = p.Name .. " [" .. math.floor((hrp.Position - lplayer.Character.HumanoidRootPart.Position).Magnitude) .. "m]"; nameLabel.TextColor3 = Color3.fromRGB(0, 255, 0); nameLabel.Font = Enum.Font.SourceSansBold; nameLabel.TextSize = 14 end end end end)
+    local sound = Instance.new("Sound", SoundService)
+    sound.SoundId = "rbxassetid://9069609268"
+    sound.Volume = 8; sound:Play()
 
--- Diğer Modüller
-local shiftlockEnabled = false; local shiftlockActive = false; local camera = workspace.CurrentCamera
-ShiftlockBtn.MouseButton1Click:Connect(function() shiftlockEnabled = not shiftlockEnabled; ShiftlockBtn.Text = shiftlockEnabled and "🔒 FORCE SHIFTLOCK: AKTİF" or "❌ FORCE SHIFTLOCK: KAPALI"; ShiftlockBtn.BackgroundColor3 = shiftlockEnabled and Color3.fromRGB(0,100,0) or Color3.fromRGB(22,22,22) if not shiftlockEnabled then shiftlockActive = false; UserInputService.MouseBehavior = Enum.MouseBehavior.Default end end)
-UserInputService.InputBegan:Connect(function(input, processed) if processed then return end if shiftlockEnabled and input.KeyCode == Enum.KeyCode.LeftShift then shiftlockActive = not shiftlockActive; UserInputService.MouseBehavior = shiftlockActive and Enum.MouseBehavior.LockCenter or Enum.MouseBehavior.Default end end)
-RunService.RenderStepped:Connect(function() if shiftlockEnabled and shiftlockActive and lplayer.Character and lplayer.Character:FindFirstChild("HumanoidRootPart") then local hrp = lplayer.Character.HumanoidRootPart; UserInputService.MouseBehavior = Enum.MouseBehavior.LockCenter; local camLook = camera.CFrame.LookVector; local targetRotation = math.atan2(-camLook.X, -camLook.Z); hrp.CFrame = CFrame.new(hrp.Position) * CFrame.Angles(0, targetRotation, 0) end end)
+    task.spawn(function()
+        for i = 1, 30 do
+            glitch.ImageTransparency = math.random(0, 5)/10
+            glitch.Position = UDim2.new(0, math.random(-20, 20), 0, math.random(-20, 20))
+            task.wait(0.03)
+        end
+        glitch:Destroy(); sound:Destroy()
+    end)
+end)
 
-local noclip = false
-RunService.Stepped:Connect(function() if noclip and lplayer.Character then for _, p in pairs(lplayer.Character:GetDescendants()) do if p:IsA("BasePart") then p.CanCollide = false end end end end)
-NoclipBtn.MouseButton1Click:Connect(function() noclip = not noclip; NoclipBtn.Text = noclip and "🟢 NOCLIP: AKTİF" or "❌ NOCLIP: KAPALI"; NoclipBtn.BackgroundColor3 = noclip and Color3.fromRGB(0,100,0) or Color3.fromRGB(20,20,20) end)
-
-local speedHack = false
-SpeedBtn.MouseButton1Click:Connect(function() speedHack = not speedHack; SpeedBtn.Text = speedHack and "🟢 SPEED HACK: AKTİF" or "❌ SPEED HACK: KAPALI"; SpeedBtn.BackgroundColor3 = speedHack and Color3.fromRGB(0,100,0) or Color3.fromRGB(20,20,20); if lplayer.Character and lplayer.Character:FindFirstChild("Humanoid") then lplayer.Character.Humanoid.WalkSpeed = speedHack and 120 or 16 end end)
-
-local infJump = false
-UserInputService.JumpRequest:Connect(function() if infJump and lplayer.Character and lplayer.Character:FindFirstChildOfClass("Humanoid") then lplayer.Character:FindFirstChildOfClass("Humanoid"):ChangeState("Jumping") end end)
-InfJumpBtn.MouseButton1Click:Connect(function() infJump = not infJump; InfJumpBtn.Text = infJump and "🦘 INF JUMP: AKTİF" or "❌ INF JUMP: KAPALI"; InfJumpBtn.BackgroundColor3 = infJump and Color3.fromRGB(0,100,0) or Color3.fromRGB(20,20,20) end)
-
-local lowGrav = false
-GravityBtn.MouseButton1Click:Connect(function() lowGrav = not lowGrav; GravityBtn.Text = lowGrav and "🟢 LOW GRAVITY: AKTİF" or "❌ LOW GRAVITY: KAPALI"; GravityBtn.BackgroundColor3 = lowGrav and Color3.fromRGB(0,100,0) or Color3.fromRGB(20,20,20); game.Workspace.Gravity = lowGrav and 35 or 196.2 end)
-
-local fullBright = false
-BrightBtn.MouseButton1Click:Connect(function() fullBright = not fullBright; BrightBtn.Text = fullBright and "🟢 FULLBRIGHT: AKTİF" or "❌ FULLBRIGHT: KAPALI"; BrightBtn.BackgroundColor3 = fullBright and Color3.fromRGB(0,100,0) or Color3.fromRGB(22,22,22); Lighting.Ambient = fullBright and Color3.fromRGB(255, 255, 255) or Color3.fromRGB(128, 128, 128) end)
-
-HitboxBtn.MouseButton1Click:Connect(function() for _, p in pairs(Players:GetPlayers()) do if p ~= lplayer and p.Character and p.Character:FindFirstChild("HumanoidRootPart") then local hrp = p.Character.HumanoidRootPart; hrp.Size = Vector3.new(4, 4, 4); hrp.Transparency = 0.6; hrp.Color = Color3.fromRGB(255, 0, 0); hrp.Material = Enum.Material.Neon end end end)
-
-DecalBtn.MouseButton1Click:Connect(function() local char = lplayer.Character if char and char:FindFirstChild("HumanoidRootPart") then local mp = Instance.new("Part", game.Workspace); mp.Size = Vector3.new(5, 7, 1); mp.Anchored = true; mp.CanCollide = false; mp.Transparency = 1; local d = Instance.new("Decal", mp); d.Texture = "rbxassetid://12502394625"; d.Face = Enum.NormalId.Front; task.spawn(function() for i = 1, 100 do task.wait(0.05) if char:FindFirstChild("HumanoidRootPart") then mp.CFrame = char.HumanoidRootPart.CFrame * CFrame.new(0, 1 + math.sin(i/5)/2, -7) end end; mp:Destroy() end) end end)
-SixBtn.MouseButton1Click:Connect(function() local s = Instance.new("Sound", SoundService); s.SoundId = "rbxassetid://9069609268"; s.Volume = 10; s.PlaybackSpeed = 0.8; s:Play(); local f = Instance.new("Frame", ScreenGui); f.Size = UDim2.new(1,0,1,0); f.BackgroundColor3 = Color3.fromRGB(255,0,0); f.BackgroundTransparency = 0.3; f.ZIndex = 9; TweenService:Create(f, TweenInfo.new(1), {BackgroundTransparency = 1}):Play(); game:GetService("Debris"):AddItem(f, 1.2); game:GetService("Debris"):AddItem(s, 5) end)
-SkyBtn.MouseButton1Click:Connect(function() local sky = game.Lighting:FindFirstChildOfClass("Sky") or Instance.new("Sky", game.Lighting); local id = "rbxassetid://12502394625"; sky.SkyboxBk = id; sky.SkyboxDn = id; sky.SkyboxFt = id; sky.SkyboxLf = id; sky.SkyboxRt = id; sky.SkyboxUp = id end)
-JumpBtn.MouseButton1Click:Connect(function() local j = Instance.new("ImageLabel", ScreenGui); j.Size = UDim2.new(1,0,1,0); j.Image = "rbxassetid://6030567154"; j.ZIndex = 11; local s = Instance.new("Sound", SoundService); s.SoundId = "rbxassetid://9069609268"; s.Volume = 5; s:Play(); task.wait(0.7); j:Destroy() end)
+-- [KUSURSUZ JUMP SCARE]
+JumpBtn.MouseButton1Click:Connect(function()
+    local js = Instance.new("ImageLabel", ScreenGui)
+    js.Size = UDim2.new(1, 0, 1, 0)
+    js.Image = "r
